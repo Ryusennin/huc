@@ -69,7 +69,8 @@ set_far_base( BANK(my_data), my_data );
 set_far_offset( 1 * 2, BANK(my_data), my_data );
 ```
 
-`far_peek( void );` `far_peekw( void );`
+`far_peek( void );`
+`far_peekw( void );`
 Reads a byte or a word from the current far memory location set by `set_far_base()`.
 
 **Related functions:** `far_load_vram()`, `far_load_bat()`, `far_load_sprites()`, `far_load_palette()`, `far_load_font()`
@@ -335,15 +336,18 @@ Initializes the internal Sprite Attribute Table (SATB) used by the HuCC library 
 Resets the SAT, this has the effect to disable and reset all the sprites.
 
 `satb_update( void );`
-Updates the SAT in VRAM. This will refresh sprites on the screen. Use this function regularly to update the sprite display. The best place to call `satb_update()` is after every `vsync()` call, but no need to call `satb_update()` if you didn't change any sprite attribute. '*nb*' specifies the number of sprites to refresh, starting from sprite 0. By default the library refreshes only the sprites you use; but if you need to explicitely refresh a certain number of sprites, then you can use '*nb*'.
+`satb_update( unsigned char nb );`
+Updates the SAT in VRAM. This will refresh sprites on the screen. Use this function regularly to update the sprite display. The best place to call `satb_update()` is after every `vsync()` call, but no need to call `satb_update()` if you didn't change any sprite attribute. By default the library refreshes only the sprites you use; but if you need to explicitely refresh a certain number of sprites, then you can use the '*nb*' parameter. '*nb*' specifies the number of sprites to refresh, starting from sprite 0.
 
-`spr_set( unsigned char num );`
-Selects sprite '*num*' (0-63) as the current sprite.
+`spr_set( unsigned char index );`
+Selects sprite '*index*' (0-63) as the current sprite.
 
 `spr_hide( void );`
-Without parameters, this function will hide the current sprite. Use '*num*' to hide a different sprite than the current one.
+`spr_hide( unsigned char index );`
+Without parameters, this function will hide the current sprite. Use '*index*' to hide a different sprite than the current one.
 
 `spr_show( void );`
+`spr_show( unsigned char index );`
 Shows a sprite that has been hidden using the `spr_hide()` function.
 
 `spr_x( unsigned int value );`
@@ -400,7 +404,7 @@ Returns the '*y*' coordinate of the current sprite.
 
 `sgx_satb_update( void );`
 
-`sgx_spr_set( unsigned char num );`
+`sgx_spr_set( unsigned char index );`
 
 `sgx_spr_hide( void );`
 
