@@ -558,7 +558,7 @@ if (map_blk_flag &COLLISION_MASK) {
 
 ## **Legacy Tile and Map Functions**
 
-This is an older tilemapping library from HuC3/4.
+This is an older tilemapping library from HuC3/4. In this context, "tiles" are bitmap patterns of 8x8 or 16x16 pixels, each drawn with a palette of 16 colors (out of 16 palettes). The 16x16 tiles must not be confused with the newer metatiles (a.k.a. blocks).
 
 `set_tile_address( unsigned int vram );`
 Sets the base VRAM address for legacy tile operations.
@@ -577,7 +577,7 @@ Sets tile data from far memory. All parameters specify the bank and address for 
 
 **Important notes:**
 - Palette indices must be shifted left by four bits (e.g., 0x40 for palette index 4).
-- Used with `#inctile_ex` or `#incchr_ex` legacy directives for automatic tile type recognition.
+- Used with `#incchr_ex` or `#inctile_ex` legacy directives for automatic tile type recognition.
 - 8x8 tiles use `#incchr_ex`, 16x16 tiles use `#inctile_ex`.
 
 `load_tile( unsigned int vram );`
@@ -599,7 +599,7 @@ Sets the map data for tile operations. '*w*' and '*h*' specify the map width and
 Sets map data from far memory. '*map_bank*' and '*map_addr*' specify the far memory location.
 
 `load_map( unsigned char bat_x, unsigned char bat_y, int map_x, int map_y, unsigned char tiles_w, unsigned char tiles_h );`
-Loads a part of a map on the screen. '*sx*' and '*sy*' are screen coordinates (in metatile units, i.e. 16 pixels), '*mx*' and '*my*' are positions in the map, and '*w*' and '*h*' are respectively the number of tile indices to load horizontally and vertically. This function doesn't do any screen clipping, so you must not pass incorrect or too big screen coordinates to it, as that would corrupt the VRAM!
+Loads a part of a map on the screen. '*sx*' and '*sy*' are screen coordinates (in tile units), '*mx*' and '*my*' are positions in the map, and '*w*' and '*h*' are respectively the number of tile indices to load horizontally and vertically. This function doesn't do any screen clipping, so you must not pass incorrect or too big screen coordinates to it, as that would corrupt the VRAM!
 
 `put_tile( unsigned char tile, unsigned char bat_x, unsigned char bat_y );`
 Puts individual tiles on the screen, either directly at VRAM location '*vaddr*', or at screen coordinates '*x*' and '*y*' (in tile units). '*tile*' is a tile index in the tile array defined by the most recent call to `set_tile_data()`.
