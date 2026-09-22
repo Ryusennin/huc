@@ -269,9 +269,9 @@ Retrieves the **blue** RGB value of the specified color '*index*'. That means ea
 **Example:**
 ```c
 // Get all RGB component values from a specified color index
-color_b = (get_color(color_index)     ) &7;    // Blue
-color_r = (get_color(color_index) >> 3) &7;    // Red
-color_g = (get_color(color_index) >> 6) &7;    // Green
+color_b = (get_color(color_index)     ) & 7;    // Blue
+color_r = (get_color(color_index) >> 3) & 7;    // Red
+color_g = (get_color(color_index) >> 6) & 7;    // Green
 ```
 
 - **Warning:** The following color functions can only handle 16 palettes (256 colors) at once!
@@ -300,7 +300,7 @@ Fades a source palette towards white by **adding** the specified '*value_to_add*
 **Note:** Fading *from* black or white *towards* the source palette (i.e. fadein effect) can be achieved by simply inverting the loop direction. For a practical example of fadeout/fadein effects, see HuCC's **metatile3** demo.
 
 `cross_fade_to( unsigned int __far *target_pal, unsigned int *current_pal, unsigned char num_colors, unsigned char which_component );`
-Crossfades between the current palette and a target palette, one brightness step at a time, modifying **only** the specified RGB component (0=green, 1=red&blue). The '*which_component*' parameter can actually take any 8-bit value, but only the bottom bit is taken into account by the function. This means an even parameter value will return 0 (green), and an odd parameter value will return 1 (red&blue). Since the higher bits are not discarded, '*which_component*' can also be used as a loop counter.
+Crossfades between the current palette and a target palette, one brightness step at a time, modifying **only** the specified RGB component (0 = green, 1 = red & blue). The '*which_component*' parameter can actually take any 8-bit value, but only the bottom bit is taken into account by the function. This means an even parameter value will return 0 (green), and an odd parameter value will return 1 (red & blue). Since the higher bits are not discarded, '*which_component*' can also be used as a loop counter.
 
 **Note 1:** Green is the brightest component. By stepping green and red/blue components separately, up to 14 brightness "half-steps" (instead of 7 full steps) are required to completely crossfade the palette. This allows for smoother color transitions.
 
@@ -524,7 +524,7 @@ Updates the block map display, based on the current scroll position. You should 
 Draws a specific rectangular area from the block map to the BAT. Source coordinates are provided by the HuCC variables '*vdc_map_pxl_x*' and '*vdc_map_pxl_y*' (in pixels). Parameters specify the destination coordinates and dimensions (in blocks).
 
 `get_map_block( unsigned int x, unsigned int y );`
-Gets the block index at the specified pixel coordinates. Returns the block index and sets global variables '*map_blk_flag*' and '*map_blk_mask*' with collision and mask information.
+Gets the block index (as an unsigned char) at the specified pixel coordinates. The function returns the block index and automatically sets global variables '*map_blk_flag*' for the collision bits, and '*map_blk_mask*' for the lookup value from the 256-byte lookup table (which is defined as an overlay/mask map).
 
 **Example:**
 ```c
@@ -534,11 +534,13 @@ set_blkmap(map_data, 32);    // 32 blocks wide
 
 // Check collision at player position
 unsigned char block = get_map_block(player_x, player_y);
-if (map_blk_flag &COLLISION_MASK) {
+if (map_blk_flag & COLLISION_MASK) {
 
     // Handle collision
 }
 ```
+
+**Note:** For a practical example of collision and overlay maps, see HuCC's **metatile** demos.
 
 ### **SuperGrafx Block Map Functions**
 
