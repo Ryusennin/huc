@@ -23,7 +23,7 @@ HuCC natively supports the SuperGrafx.
 
 ![magicianlord.sgx](/pic/magicianlord.gif "SuperGrafx proof-of-concept of Magician Lord")
 
-HuC's legacy `scroll()` function has been superseded by a new optional `scroll_split()` function that is much faster, supports more scrolling regions, and supports both background layers on the SuperGrafx.
+HuC's legacy `scroll()` function has been superseded by a new optional `scroll_split()` function that is much faster, supports both background layers on the SuperGrafx, and supports more scrolling regions (up to 128 per layer).
 
 ![demonblazon.sgx](/pic/demonblazon.png "SuperGrafx slideshow of Demon's Blazon")
 
