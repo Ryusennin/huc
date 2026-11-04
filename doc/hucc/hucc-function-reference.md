@@ -601,16 +601,16 @@ Sets the map data for tile operations. '*w*' and '*h*' specify the map width and
 Sets map data from far memory. '*map_bank*' and '*map_addr*' specify the far memory location.
 
 `load_map( unsigned char bat_x, unsigned char bat_y, int map_x, int map_y, unsigned char tiles_w, unsigned char tiles_h );`
-Loads a part of a map on the screen. '*sx*' and '*sy*' are screen coordinates (in tile units), '*mx*' and '*my*' are positions in the map, and '*w*' and '*h*' are respectively the number of tile indices to load horizontally and vertically. This function doesn't do any screen clipping, so you must not pass incorrect or too big screen coordinates to it, as that would corrupt the VRAM!
+Loads a part of a map on the screen. '*bat_x*' and '*bat_y*' are screen coordinates (in tile units), '*map_x*' and '*map_y*' are positions in the map (in pixels), and '*tiles_w*' and '*tiles_h*' are respectively the number of tiles to load horizontally and vertically. This function doesn't do any screen clipping, so you must not pass incorrect or too big screen coordinates to it, as that would corrupt the VRAM!
 
 `put_tile( unsigned char tile, unsigned char bat_x, unsigned char bat_y );`
-Puts individual tiles on the screen, either directly at VRAM location '*vaddr*', or at screen coordinates '*x*' and '*y*' (in tile units). '*tile*' is a tile index in the tile array defined by the most recent call to `set_tile_data()`.
+Puts individual tiles at screen coordinates '*bat_x*' and '*bat_y*' (in tile units). '*tile*' is a tile index in the tile array defined by the most recent call to `set_tile_data()`.
 
 `map_get_tile( unsigned char map_x, unsigned char map_y );`
-Returns the tile index as defined in the tile array used in the most recent call to `set_tile_data()`. The '*x*' and '*y*' arguments are in pixels, unlike the put_tile functions. So this function is ideal for collision routines.
+Returns the tile index as defined in the tile array used in the most recent call to `set_tile_data()`. The '*map_x*' and '*map_y*' arguments are in pixels. This function is ideal for collision routines.
 
 `map_put_tile( unsigned char map_x, unsigned char map_y, unsigned char tile );`
-Modifies the map data (sets a map element to a new tile ID), but works only when the map is stored in RAM (i.e. a Super CD-ROM game which is loaded into System Card RAM, and executes there). '*x*' and '*y*' are specified in pixels, not tiles.
+Modifies the map data (sets a map element to a new tile ID), but works only when the map is stored in RAM (i.e. a Super CD-ROM game which is loaded into System Card RAM, and executes there). '*map_x*' and '*map_y*' are specified in pixels.
 
 `load_background( unsigned char __far *tiles, unsigned char __far *palettes, unsigned char __far *bat, unsigned char w, unsigned char h );`
 This legacy all-in-one function is used to display an entire background image on the screen, like a game title image. It will load background character data, it will load the palette, and finally it will load the BAT. Use it with directives `#incchr`, `#incbat` and `#incpal` to manage the different types of data. The character data will be stored at fixed address 0x1000 to 0x5000 in VRAM.
